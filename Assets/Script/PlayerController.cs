@@ -30,10 +30,39 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private MeshRenderer meshRenderer = null;
 
+    [SerializeField] private GameObject cameraPrefab; // 第三人稱攝影機Prefab
+    private GameObject playerCamera;
+
     public override void Spawned()
     {
         if (Object.HasStateAuthority) //判定是否只在伺服器端運行
             Hp = maxHp;
+
+        // 確保只在本地玩家生成攝影機
+        if (Object.HasInputAuthority)
+        {
+            Debug.Log("生成本地玩家攝影機");
+
+            playerCamera = Instantiate(cameraPrefab);
+            playerCamera.tag = "MainCamera"; // 設定為主攝影機
+
+            // 綁定攝影機跟隨本地玩家
+            CameraFollow cameraFollow = playerCamera.GetComponent<CameraFollow>();
+            if (cameraFollow != null)
+            {
+                cameraFollow.target = this.transform;
+            }
+
+            // 停用預設場景攝影機
+            if (Camera.main != null)
+            {
+                Camera.main.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            Debug.Log("其他玩家加入，不生成攝影機");
+        }
     }
 
     private void Respawn()//死亡重生

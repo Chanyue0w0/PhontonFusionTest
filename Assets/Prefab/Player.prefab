@@ -362,7 +362,7 @@ MonoBehaviour:
   jumpImpulse: 8
   acceleration: 10
   braking: 10
-  maxSpeed: 2
+  maxSpeed: 5
   rotationSpeed: 15
 --- !u!114 &-6232714760406918012
 MonoBehaviour:
@@ -383,6 +383,7 @@ MonoBehaviour:
   maxHp: 100
   _Hp: 0
   meshRenderer: {fileID: 8604038447705279500}
+  cameraPrefab: {fileID: 405155616234459814, guid: 24137c2218649a940b0d3efda16d7b35, type: 3}
 --- !u!1 &5222655559872831022
 GameObject:
   m_ObjectHideFlags: 0
