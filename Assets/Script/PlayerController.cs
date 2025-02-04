@@ -27,6 +27,8 @@ public class PlayerController : NetworkBehaviour
     [Networked, OnChangedRender(nameof(OnHpChanged))] // 宣告以下變數為Network且若OnHpChanged則執行OnChanged
     public int Hp { get; set; } //需要同步至連線
 
+    [SerializeField]
+    private MeshRenderer meshRenderer = null;
 
     public override void Spawned()
     {
@@ -89,4 +91,28 @@ public class PlayerController : NetworkBehaviour
         hpBar.fillAmount = (float)Hp / maxHp;
     }
 
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ChangeColor_RPC(Color.red);
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            ChangeColor_RPC(Color.green);
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            ChangeColor_RPC(Color.blue);
+        }
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)] // 使用RPC
+    private void ChangeColor_RPC(Color newColor)
+    {
+        meshRenderer.material.color = newColor;
+    }
 }

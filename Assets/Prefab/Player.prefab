@@ -377,11 +377,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkCharacterController: {fileID: 9007994463427843592}
-  bulletPrefab: {fileID: 8959613818952648114, guid: 0f956e5c51e4b3448a82d44c198106d6, type: 3}
+  bulletPrefab: {fileID: 4183021474731173328, guid: 0f432bb813045f14da27f94e80632762, type: 3}
   moveSpeed: 15
   hpBar: {fileID: 1378802178658636360}
   maxHp: 100
   _Hp: 0
+  meshRenderer: {fileID: 8604038447705279500}
 --- !u!1 &5222655559872831022
 GameObject:
   m_ObjectHideFlags: 0

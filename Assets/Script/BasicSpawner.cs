@@ -14,11 +14,14 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField]
     private NetworkPrefabRef playerPrefab;
 
+    [SerializeField]
+    private GameMode gameMode;
+
     private Dictionary<PlayerRef, NetworkObject> playerList = new Dictionary<PlayerRef, NetworkObject>();
 
     private void Start()
     {
-        StartGame(GameMode.AutoHostOrClient);
+        StartGame(gameMode);//GameMode.AutoHostOrClient
     }
 
     async void StartGame(GameMode mode)
