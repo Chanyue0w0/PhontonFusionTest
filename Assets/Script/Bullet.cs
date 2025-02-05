@@ -43,14 +43,16 @@ public class Bullet : NetworkBehaviour
             player.TakeDamage(10);
 
             // 非網路同步特效
-            Instantiate(blood, transform.position, Quaternion.identity);
+            if (blood != null)
+                Instantiate(blood, transform.position, Quaternion.identity);
             Runner.Despawn(Object);
         }
 
         if (other.CompareTag("Obstacle"))
         {
             // 非網路同步特效
-            Instantiate(explosion, transform.position, Quaternion.identity);
+            if(explosion != null)
+                Instantiate(explosion, transform.position, Quaternion.identity);
             Runner.Despawn(Object);
         }
     }

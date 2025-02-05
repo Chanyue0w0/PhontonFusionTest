@@ -105,13 +105,19 @@ public class PlayerController : NetworkBehaviour
                 networkCharacterController.Jump();
             }
 
+            //if (pressed.IsSet(InputButtons.FIRE))
+            //{
+            //    Runner.Spawn(
+            //        bulletPrefab,
+            //        transform.position + transform.TransformDirection(Vector3.forward),
+            //        Quaternion.LookRotation(transform.TransformDirection(new Vector3(0,0.1f,1))),
+            //        Object.InputAuthority);
+            //}
             if (pressed.IsSet(InputButtons.FIRE))
             {
-                Runner.Spawn(
-                    bulletPrefab,
-                    transform.position + transform.TransformDirection(Vector3.forward),
-                    Quaternion.LookRotation(transform.TransformDirection(new Vector3(0,0.1f,1))),
-                    Object.InputAuthority);
+                // 呼叫 RPC 讓伺服器生成子彈
+                FireBullet_RPC(transform.position + transform.TransformDirection(Vector3.forward),
+                               transform.rotation);
             }
         }
 
@@ -119,6 +125,18 @@ public class PlayerController : NetworkBehaviour
         {
             Respawn();
         }
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void FireBullet_RPC(Vector3 spawnPosition, Quaternion spawnRotation)
+    {
+        // 由伺服器生成子彈
+        Runner.Spawn(
+            bulletPrefab,
+            spawnPosition,
+            spawnRotation,
+            Object.InputAuthority
+        );
     }
 
     public void TakeDamage(int damage)
