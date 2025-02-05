@@ -13,8 +13,6 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     [SerializeField]
     private NetworkPrefabRef playerPrefab;
-    [SerializeField]
-    private GameObject cameraPrefab; // 第三人稱攝影機Prefab
 
 
     [SerializeField]
@@ -47,34 +45,6 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, spawnPosition, Quaternion.identity, player);
 
         playerList.Add(player, networkPlayerObject);
-
-        //// 檢查該玩家是否由本地客戶端控制
-        //if (networkPlayerObject.HasInputAuthority)
-        //{
-        //    Debug.Log("本地玩家加入，生成攝影機");
-
-        //    // 生成攝影機
-        //    GameObject playerCamera = Instantiate(cameraPrefab);
-        //    playerCamera.tag = "MainCamera"; // 設定為主攝影機
-
-        //    // 綁定攝影機到本地玩家物件
-        //    CameraFollow cameraFollow = playerCamera.GetComponent<CameraFollow>();
-        //    if (cameraFollow != null)
-        //    {
-        //        cameraFollow.target = networkPlayerObject.transform;
-        //    }
-
-        //    // 停用預設場景攝影機
-        //    if (Camera.main != null)
-        //    {
-        //        Camera.main.gameObject.SetActive(false);
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.Log("其他玩家加入，不生成攝影機");
-        //}
-
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)

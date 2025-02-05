@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using UnityEngine.UI;
+using Cinemachine;
+
 
 public class PlayerController : NetworkBehaviour
 {
@@ -31,7 +33,8 @@ public class PlayerController : NetworkBehaviour
     private MeshRenderer meshRenderer = null;
 
     [SerializeField] private GameObject cameraPrefab; // 第三人稱攝影機Prefab
-    private GameObject playerCamera;
+    [SerializeField] private GameObject playerCamera; // 第三人稱玩家攝影機
+    [SerializeField] private GameObject cameraFollowTarget;
 
     public override void Spawned()
     {
@@ -46,18 +49,30 @@ public class PlayerController : NetworkBehaviour
             playerCamera = Instantiate(cameraPrefab);
             playerCamera.tag = "MainCamera"; // 設定為主攝影機
 
-            // 綁定攝影機跟隨本地玩家
-            CameraFollow cameraFollow = playerCamera.GetComponent<CameraFollow>();
-            if (cameraFollow != null)
+            //// 綁定攝影機跟隨本地玩家
+            //CameraFollow cameraFollow = playerCamera.GetComponent<CameraFollow>();
+            //if (cameraFollow != null)
+            //{
+            //    cameraFollow.target = this.transform;
+            //}
+
+            // 確認有 CinemachineBrain，必要時添加
+            if (playerCamera.GetComponent<CinemachineBrain>() == null)
             {
-                cameraFollow.target = this.transform;
+                playerCamera.AddComponent<CinemachineBrain>();
+            }
+            CinemachineVirtualCamera virtualCamera = playerCamera.GetComponent<CinemachineVirtualCamera>();
+            if (virtualCamera != null)
+            {
+                virtualCamera.Follow = cameraFollowTarget.transform;  // 設定跟隨目標
             }
 
+
             // 停用預設場景攝影機
-            if (Camera.main != null)
-            {
-                Camera.main.gameObject.SetActive(false);
-            }
+            //if (Camera.main != null)
+            //{
+            //    Camera.main.gameObject.SetActive(false);
+            //}
         }
         else
         {

@@ -9615,7 +9615,6 @@ GameObject:
   - component: {fileID: 5245955548716005766}
   - component: {fileID: 3260992834465274724}
   - component: {fileID: 4183021474731173328}
-  - component: {fileID: -61433201564283637}
   m_Layer: 0
   m_Name: Bullet3
   m_TagString: Untagged
@@ -14665,23 +14664,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3483ce59990cfa6419b2340abd0909c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 20
+  bulletSpeed: 30
   blood: {fileID: 1087343519178782566, guid: dc11fc9a583e7f2418cc84a579cfb2e9, type: 3}
   explosion: {fileID: 3035345911818772620, guid: 949c6d47308acea459c33df85cfc34c2, type: 3}
---- !u!114 &-61433201564283637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4707871049858813404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid:
-    RawGuidValue: 0f432bb813045f14da27f94e80632762
 --- !u!1 &5059207860118812583
 GameObject:
   m_ObjectHideFlags: 0
