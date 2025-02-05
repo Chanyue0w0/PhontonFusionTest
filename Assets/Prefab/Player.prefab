@@ -365,8 +365,8 @@ MonoBehaviour:
   jumpImpulse: 8
   acceleration: 10
   braking: 10
-  maxSpeed: 5
-  rotationSpeed: 15
+  maxSpeed: 8
+  rotationSpeed: 3
 --- !u!114 &-6232714760406918012
 MonoBehaviour:
   m_ObjectHideFlags: 0

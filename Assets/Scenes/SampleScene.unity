@@ -889,6 +889,7 @@ MonoBehaviour:
   playerPrefab:
     RawGuidValue: 301c7beaa1b00934bb46b6d9b84d77dd
   gameMode: 6
+  cameraTransform: {fileID: 0}
 --- !u!1 &1198949297
 GameObject:
   m_ObjectHideFlags: 0

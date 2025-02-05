@@ -35,6 +35,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private GameObject cameraPrefab; // 第三人稱攝影機Prefab
     [SerializeField] private GameObject playerCamera; // 第三人稱玩家攝影機
     [SerializeField] private GameObject cameraFollowTarget;
+    private Transform cameraTransform; // 攝影機 Transform 參考
 
     public override void Spawned()
     {
@@ -65,6 +66,8 @@ public class PlayerController : NetworkBehaviour
             if (virtualCamera != null)
             {
                 virtualCamera.Follow = cameraFollowTarget.transform;  // 設定跟隨目標
+                cameraTransform = virtualCamera.transform;  // 保存攝影機的 Transform 以供移動使用
+
             }
 
 
@@ -107,7 +110,7 @@ public class PlayerController : NetworkBehaviour
                 Runner.Spawn(
                     bulletPrefab,
                     transform.position + transform.TransformDirection(Vector3.forward),
-                    Quaternion.LookRotation(transform.TransformDirection(Vector3.forward)),
+                    Quaternion.LookRotation(transform.TransformDirection(new Vector3(0,0.1f,1))),
                     Object.InputAuthority);
             }
         }
@@ -134,7 +137,6 @@ public class PlayerController : NetworkBehaviour
     {
         hpBar.fillAmount = (float)Hp / maxHp;
     }
-
 
     private void Update()
     {

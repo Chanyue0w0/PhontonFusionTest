@@ -18,6 +18,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField]
     private GameMode gameMode;
 
+    public Transform cameraTransform;  // 指向主攝影機或虛擬攝影機
+
     private Dictionary<PlayerRef, NetworkObject> playerList = new Dictionary<PlayerRef, NetworkObject>();
 
     private void Start()
@@ -56,27 +58,69 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
+    //public void OnInput(NetworkRunner runner, NetworkInput input)
+    //{
+    //    var data = new NetworkInputData();
+
+    //    if (Input.GetKey(KeyCode.W))
+    //        data.movementInput += Vector3.forward;
+
+    //    if (Input.GetKey(KeyCode.S))
+    //        data.movementInput += Vector3.back;
+
+    //    if (Input.GetKey(KeyCode.A))
+    //        data.movementInput += Vector3.left;
+
+    //    if (Input.GetKey(KeyCode.D))
+    //        data.movementInput += Vector3.right;
+
+    //    data.buttons.Set(InputButtons.JUMP, Input.GetKey(KeyCode.Space));
+    //    data.buttons.Set(InputButtons.FIRE, Input.GetKey(KeyCode.Mouse0));
+
+    //    input.Set(data);
+    //}
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var data = new NetworkInputData();
 
-        if (Input.GetKey(KeyCode.W))
-            data.movementInput += Vector3.forward;
+        // 取得攝影機參考
+        Camera playerCamera = Camera.main;  // 確保生成的攝影機有 "MainCamera" 標籤
 
-        if (Input.GetKey(KeyCode.S))
-            data.movementInput += Vector3.back;
+        if (playerCamera != null)
+        {
+            // 取得攝影機的前方和右方（忽略Y軸，僅考慮水平移動）
+            Vector3 camForward = Vector3.Scale(playerCamera.transform.forward, new Vector3(1, 0, 1)).normalized;
+            Vector3 camRight = Vector3.Scale(playerCamera.transform.right, new Vector3(1, 0, 1)).normalized;
 
-        if (Input.GetKey(KeyCode.A))
-            data.movementInput += Vector3.left;
+            // 根據按鍵輸入計算移動方向
+            if (Input.GetKey(KeyCode.W))
+                data.movementInput += camForward;
 
-        if (Input.GetKey(KeyCode.D))
-            data.movementInput += Vector3.right;
+            if (Input.GetKey(KeyCode.S))
+                data.movementInput -= camForward;
 
+            if (Input.GetKey(KeyCode.A))
+                data.movementInput -= camRight;
+
+            if (Input.GetKey(KeyCode.D))
+                data.movementInput += camRight;
+        }
+        else
+        {
+            Debug.LogError("未找到攝影機，請確認攝影機已正確標籤為 MainCamera。");
+        }
+
+        data.movementInput = data.movementInput.normalized;  // 正規化移動向量
+
+        // 設置其他按鈕輸入
         data.buttons.Set(InputButtons.JUMP, Input.GetKey(KeyCode.Space));
         data.buttons.Set(InputButtons.FIRE, Input.GetKey(KeyCode.Mouse0));
 
         input.Set(data);
     }
+
+
+
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
     public void OnConnectedToServer(NetworkRunner runner) { }
